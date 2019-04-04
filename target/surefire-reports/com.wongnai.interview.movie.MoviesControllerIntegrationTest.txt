@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: com.wongnai.interview.movie.MoviesControllerIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.645 s <<< FAILURE! - in com.wongnai.interview.movie.MoviesControllerIntegrationTest
+testSearchWithRestApi(com.wongnai.interview.movie.MoviesControllerIntegrationTest)  Time elapsed: 0.097 s  <<< FAILURE!
+java.lang.AssertionError: No value at JSON path "$"
+	at com.wongnai.interview.movie.MoviesControllerIntegrationTest.testSearchWithRestApi(MoviesControllerIntegrationTest.java:29)
+Caused by: java.lang.IllegalArgumentException: json can not be null or empty
+	at com.wongnai.interview.movie.MoviesControllerIntegrationTest.testSearchWithRestApi(MoviesControllerIntegrationTest.java:29)
+
