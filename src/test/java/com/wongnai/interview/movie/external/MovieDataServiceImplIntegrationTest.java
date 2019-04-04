@@ -19,14 +19,12 @@ public class MovieDataServiceImplIntegrationTest {
 
 	@Test
 	public void testFetchAll() {
-		movieDataService = new MovieDataServiceImpl();
 		MoviesResponse result = movieDataService.fetchAll();
 		Assert.assertThat(result.size(), Matchers.equalTo(28795));
 	}
 
 	@Test
 	public void testMappingDataCorrectly() {
-		movieDataService = new MovieDataServiceImpl();
 		MoviesResponse result = movieDataService.fetchAll();
 		Optional<MovieData> afterDark = result.stream()
 				.filter(m -> m.getTitle().equals("One Night in Rome"))

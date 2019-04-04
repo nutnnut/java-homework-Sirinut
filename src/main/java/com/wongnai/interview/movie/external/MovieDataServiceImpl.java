@@ -108,8 +108,4 @@ public class MovieDataServiceImpl implements MovieDataService {
 
 		return response;
 	}
-
-	public static String test(){
-		return "test";
-	}
 }
