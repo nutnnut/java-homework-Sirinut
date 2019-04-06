@@ -1,20 +1,23 @@
 package com.wongnai.interview.movie.search;
 
-import java.util.List;
+import java.util.*;
 
+import com.wongnai.interview.movie.*;
+import com.wongnai.interview.movie.sync.MovieDataSynchronizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
-import com.wongnai.interview.movie.Movie;
-import com.wongnai.interview.movie.MovieRepository;
-import com.wongnai.interview.movie.MovieSearchService;
+import javax.validation.constraints.Null;
 
 @Component("invertedIndexMovieSearchService")
 @DependsOn("movieDatabaseInitializer")
 public class InvertedIndexMovieSearchService implements MovieSearchService {
 	@Autowired
 	private MovieRepository movieRepository;
+
+	@Autowired
+	private InvertedIndexRepository invertedIndexRepository;
 
 	@Override
 	public List<Movie> search(String queryText) {
@@ -35,6 +38,26 @@ public class InvertedIndexMovieSearchService implements MovieSearchService {
 		// you have to return can be union or intersection of those 2 sets of ids.
 		// By the way, in this assignment, you must use intersection so that it left for just movie id 5.
 
-		return null;
+		String[] words = queryText.split(" ");
+		//Empty Query
+		if(words.length==0) return new ArrayList<Movie>();
+
+		Set<Long> index = new HashSet<>();
+		try{
+			//System.out.println(words[0].toUpperCase());
+			index.addAll(invertedIndexRepository.findByWord(words[0].toUpperCase()).get(0).getIndex());
+			//System.out.println(index);
+			for (int i = 1; i < words.length; i++){
+				index.retainAll(invertedIndexRepository.findByWord(words[i].toUpperCase()).get(0).getIndex());
+				//System.out.println(index);
+			}
+
+			if(index.isEmpty()) return new ArrayList<Movie>();
+			return movieRepository.findByIndex(index);
+
+		}catch (IndexOutOfBoundsException e){
+			// one of the keyword is not found in the inverted index, therefore there is no match
+			return new ArrayList<Movie>();
+		}
 	}
 }

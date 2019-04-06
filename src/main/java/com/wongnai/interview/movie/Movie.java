@@ -13,7 +13,6 @@ import javax.persistence.Id;
 @Entity
 public class Movie {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String name;
@@ -25,6 +24,10 @@ public class Movie {
 	 * Required by JPA.
 	 */
 	protected Movie() {
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Movie(String name) {
